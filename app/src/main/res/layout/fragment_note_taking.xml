@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryLight">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/fragment_note_taking_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            tool:text="To-Do List"
+            android:gravity="center"
+            android:textColor="@color/textColorPrimary"/>
+
+        <ImageButton
+            android:id="@+id/fragment_note_taking_add"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
+            android:background="@drawable/add_button"
+            android:src="@drawable/ic_add_item"
+            android:scaleType="fitCenter"
+            android:layout_gravity="right"/>
+
+    </FrameLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_note_taking_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

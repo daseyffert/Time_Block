@@ -10,41 +10,58 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.daseyffert.timeblock.ApplicationTabs.TabFragment1;
+import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
+import com.daseyffert.timeblock.ApplicationTabs.Tab3.TabFragment3;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HostActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private Toolbar mToolbar;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.activity_host_toolbar);
+        setSupportActionBar(mToolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Show Application Icon next to title
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        mViewPager = (ViewPager) findViewById(R.id.activity_host_viewpager);
+        setupViewPager(mViewPager);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        mTabLayout = (TabLayout) findViewById(R.id.activity_host_tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    /**
+     * Add the Fragments into the adapter to setup data in
+     * the adapter into the ViewPager
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        //Aggregate the Fragments and title to List
+        adapter.addFragment(new TabFragment3(), "THREE");
         adapter.addFragment(new TabFragment1(), "ONE");
         adapter.addFragment(new TabFragment2(), "TWO");
-        adapter.addFragment(new TabFragment3(), "THREE");
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    /**
+     * Adapter of the ViewPager, used to keep track of tabs
+     */
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
