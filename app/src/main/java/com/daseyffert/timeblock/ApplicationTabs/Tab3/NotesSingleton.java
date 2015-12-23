@@ -1,11 +1,7 @@
-package com.daseyffert.timeblock.ApplicationTabs;
+package com.daseyffert.timeblock.ApplicationTabs.Tab3;
 
 import android.content.Context;
-import android.widget.TextView;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.NotesItem;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

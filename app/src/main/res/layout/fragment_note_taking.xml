@@ -17,7 +17,7 @@
             android:id="@+id/fragment_note_taking_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="32dp"
+            android:textSize="24dp"
             android:textStyle="bold"
             tool:text="To-Do List"
             android:gravity="center"
@@ -25,8 +25,8 @@
 
         <ImageButton
             android:id="@+id/fragment_note_taking_add"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:padding="2dp"
             android:background="@drawable/add_button"
             android:src="@drawable/ic_add_item"
