@@ -28,7 +28,7 @@ public class HostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host);
 
-        mToolbar = (Toolbar) findViewById(R.id.activity_host_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         //getSupportActionBar().setDisplayShowHomeEnabled(true);

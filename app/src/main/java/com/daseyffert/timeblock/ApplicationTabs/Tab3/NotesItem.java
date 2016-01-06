@@ -10,12 +10,15 @@ public class NotesItem {
 
     private UUID mId;
     private String mTitle;
+    private String mDescription;
     private Date mDate;
+    private boolean mPriority;
 
     //Generate unique identifier and
     //Default mChecked to false
     public NotesItem(){
         mId = UUID.randomUUID();
+        mDate = new Date();
     }
 
     //Getters and Setters
@@ -36,5 +39,17 @@ public class NotesItem {
     }
     public void setDate(Date date) {
         mDate = date;
+    }
+    public String getDescription() {
+        return mDescription;
+    }
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+    public boolean isPriority() {
+        return mPriority;
+    }
+    public void setPriority(boolean priority) {
+        mPriority = priority;
     }
 }

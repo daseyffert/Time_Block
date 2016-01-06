@@ -1,18 +1,24 @@
 package com.daseyffert.timeblock.ApplicationTabs.Tab3;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daseyffert.timeblock.ApplicationTabs.Tab3.SingleNote.SingleNoteActivity;
 import com.daseyffert.timeblock.R;
 
 import java.text.SimpleDateFormat;
@@ -31,14 +37,21 @@ public class TabFragment3 extends Fragment {
     private NoteAdapter mNoteAdapter;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UpdateUI();
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         //Inflate the View
-        View view = inflater.inflate(R.layout.fragment_note_taking, container, false);
+        View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         //Wire up views
-        mToDoTitleTextView = (TextView) view.findViewById(R.id.fragment_note_taking_title);
-        mAddNoteButton = (ImageButton) view.findViewById(R.id.fragment_note_taking_add);
-        mNotesRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_note_taking_recycler_view);
+        mToDoTitleTextView = (TextView) view.findViewById(R.id.fragment_notes_list_title);
+        mAddNoteButton = (ImageButton) view.findViewById(R.id.fragment_notes_list_add);
+        mNotesRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_notes_list_recycler_view);
         //Underline ToDoTitleTextView
         mToDoTitleTextView.setPaintFlags(mToDoTitleTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         mToDoTitleTextView.setText("To-Do List");
@@ -46,6 +59,16 @@ public class TabFragment3 extends Fragment {
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //Configure UserInterface
         UpdateUI();
+        //Add listener to add button
+        mAddNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotesItem note = new NotesItem();
+                NotesSingleton.get(getActivity()).addNotesItem(note);
+                Intent intent = SingleNoteActivity.newIntent(getActivity(), note.getId());
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -53,8 +76,14 @@ public class TabFragment3 extends Fragment {
         NotesSingleton notesSingleton = NotesSingleton.get(getActivity());
         List<NotesItem> notes = notesSingleton.getNotesItems();
 
-        mNoteAdapter = new NoteAdapter(notes);
-        mNotesRecyclerView.setAdapter(mNoteAdapter);
+        //TODO figure out how to implement notifyDataSetChanged() without
+        //TODO losing list
+//        if (mNoteAdapter == null) {
+            mNoteAdapter = new NoteAdapter(notes);
+            mNotesRecyclerView.setAdapter(mNoteAdapter);
+//        } else {
+//            mNoteAdapter.notifyDataSetChanged();
+//        }
     }
 
     /** CLASS
@@ -65,7 +94,7 @@ public class TabFragment3 extends Fragment {
         private NotesItem mNote;
         private TextView mTitleTextView;
         private TextView mDateTextView;
-        private Button mDeleteButton;
+        private ImageButton mDeleteButton;
 
         //Constructor sets up class by wiring widgets
         public NoteHolder(View itemView) {
@@ -73,9 +102,9 @@ public class TabFragment3 extends Fragment {
             //Set onClick for the RecyclerView item
             itemView.setOnClickListener(this);
             //Wire up Widget Views for each RecyclerView Item
-            mTitleTextView = (TextView) itemView.findViewById(R.id.note_taking_item_title);
-            mDateTextView = (TextView) itemView.findViewById(R.id.note_taking_item_date);
-            mDeleteButton = (Button) itemView.findViewById(R.id.note_taking_item_delete_button);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.notes_list_item_title);
+            mDateTextView = (TextView) itemView.findViewById(R.id.notes_list_item_date);
+            mDeleteButton = (ImageButton) itemView.findViewById(R.id.notes_list_item_delete_button);
         }
 
 
@@ -87,18 +116,23 @@ public class TabFragment3 extends Fragment {
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(formattedDate(mNote.getDate()));
             //TODO figure out how to delete view
-//            mDeleteButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            });
+            mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    NotesSingleton.get(getActivity()).deleteNotesItem(mNote);
+                    UpdateUI();
+
+                }
+            });
         }
 
         //Implementation of when the certain RecyclerView View is clicked
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), mNote.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            //pass mNote's Id to activity
+            Intent intent = SingleNoteActivity.newIntent(getActivity(), mNote.getId());
+            startActivity(intent);
         }
 
         //Format Date to dd/mm/yyyy from whatever date given
@@ -125,7 +159,7 @@ public class TabFragment3 extends Fragment {
         public NoteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             //Wire Up layout of ech item in recyclerView
-            View view = inflater.inflate(R.layout.note_taking_item, parent, false);
+            View view = inflater.inflate(R.layout.notes_list_item, parent, false);
             return new NoteHolder(view);
         }
 
@@ -133,6 +167,7 @@ public class TabFragment3 extends Fragment {
         @Override
         public void onBindViewHolder(NoteHolder holder, int position) {
             NotesItem note = mNotes.get(position);
+
             //Set the values of the RecyclerView Item to those of the
             //particular note at the time
             holder.bindNote(note);

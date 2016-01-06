@@ -40,6 +40,16 @@ public class NotesSingleton {
         }
     }
 
+    //Add a new note to list
+    public void addNotesItem(NotesItem note) {
+        mNotesItems.add(note);
+    }
+
+    //Remove note from list
+    public void deleteNotesItem(NotesItem notes){
+        mNotesItems.remove(notes);
+    }
+
     //Retrieve the list of Notes
     public List<NotesItem> getNotesItems() {
         return mNotesItems;
