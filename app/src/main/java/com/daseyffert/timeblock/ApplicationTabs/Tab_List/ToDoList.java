@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab3;
+package com.daseyffert.timeblock.ApplicationTabs.Tab_List;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -6,19 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.SingleNote.SingleNoteActivity;
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote.SingleNoteActivity;
 import com.daseyffert.timeblock.R;
 
 import java.text.SimpleDateFormat;

@@ -1,12 +1,9 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab3.SingleNote;
+package com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 
-import com.daseyffert.timeblock.R;
 import com.daseyffert.timeblock.SingleFragmentActivity;
 
 import java.util.UUID;

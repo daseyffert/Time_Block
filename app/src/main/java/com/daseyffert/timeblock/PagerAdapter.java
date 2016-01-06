@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment1;
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.ToDoList;
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.ToDoList;
 
 /**
  * Created by Daniel on 12/21/2015.

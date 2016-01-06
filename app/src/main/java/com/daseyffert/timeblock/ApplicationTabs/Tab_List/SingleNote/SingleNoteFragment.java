@@ -1,22 +1,18 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab3.SingleNote;
+package com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.NotesItem;
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.NotesSingleton;
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesItem;
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesSingleton;
 import com.daseyffert.timeblock.R;
 
 import java.util.Date;
