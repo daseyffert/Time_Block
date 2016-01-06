@@ -32,12 +32,12 @@ public class NotesSingleton {
         mNotesItems = new ArrayList<>();
 
         //Testing list
-        for (int i = 0; i < 24; i++) {
-            NotesItem note = new NotesItem();
-            note.setTitle("Note #" + i);
-            note.setDate(new Date());
-            mNotesItems.add(note);
-        }
+//        for (int i = 0; i < 7; i++) {
+//            NotesItem note = new NotesItem();
+//            note.setTitle("Note #" + i);
+//            note.setDate(new Date());
+//            mNotesItems.add(note);
+//        }
     }
 
     //Add a new note to list

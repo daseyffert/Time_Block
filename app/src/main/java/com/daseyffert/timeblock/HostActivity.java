@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment1;
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
-import com.daseyffert.timeblock.ApplicationTabs.Tab3.TabFragment3;
+import com.daseyffert.timeblock.ApplicationTabs.Tab3.ToDoList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +51,9 @@ public class HostActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         //Aggregate the Fragments and title to List
-        adapter.addFragment(new TabFragment3(), "THREE");
-        adapter.addFragment(new TabFragment1(), "ONE");
-        adapter.addFragment(new TabFragment2(), "TWO");
+        adapter.addFragment(new ToDoList(), "LIST");
+        adapter.addFragment(new TabFragment1(), "APPLICATIONS");
+        adapter.addFragment(new TabFragment2(), "TIMEBLOCK");
         viewPager.setAdapter(adapter);
     }
 

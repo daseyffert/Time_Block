@@ -29,9 +29,10 @@ import java.util.List;
  * Created by Daniel on 12/21/2015.
  * Note Taking Fragment
  */
-public class TabFragment3 extends Fragment {
+public class ToDoList extends Fragment {
 
     private TextView mToDoTitleTextView;
+    private TextView mPromptTextView;
     private ImageButton mAddNoteButton;
     private RecyclerView mNotesRecyclerView;
     private NoteAdapter mNoteAdapter;
@@ -50,6 +51,7 @@ public class TabFragment3 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         //Wire up views
         mToDoTitleTextView = (TextView) view.findViewById(R.id.fragment_notes_list_title);
+        mPromptTextView = (TextView) view.findViewById(R.id.fragment_notes_list_prompt);
         mAddNoteButton = (ImageButton) view.findViewById(R.id.fragment_notes_list_add);
         mNotesRecyclerView = (RecyclerView) view.findViewById(R.id.fragment_notes_list_recycler_view);
         //Underline ToDoTitleTextView
@@ -84,6 +86,18 @@ public class TabFragment3 extends Fragment {
 //        } else {
 //            mNoteAdapter.notifyDataSetChanged();
 //        }
+
+        //Update RecyclerView and TextView depending if the notes are empty
+        if (notes.isEmpty()) {
+            //display prompt to add item
+            mNotesRecyclerView.setVisibility(View.GONE);
+            mPromptTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            //display notes
+            mNotesRecyclerView.setVisibility(View.VISIBLE);
+            mPromptTextView.setVisibility(View.GONE);
+        }
     }
 
     /** CLASS
@@ -115,14 +129,13 @@ public class TabFragment3 extends Fragment {
             //Assign values to widgets
             mTitleTextView.setText(mNote.getTitle());
             mDateTextView.setText(formattedDate(mNote.getDate()));
-            //TODO figure out how to delete view
+            //Wire up Delete button functionality
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     NotesSingleton.get(getActivity()).deleteNotesItem(mNote);
                     UpdateUI();
-
                 }
             });
         }

@@ -7,4 +7,9 @@
     <string name="todo_title">To-Do List</string>
     <string name="title">Title</string>
     <string name="prompt">List Is Empty. Create A New Item.</string>
+    <string name="save_button">Save</string>
+    <string name="delete_button">Delete</string>
+    <string name="item_description">Item Description</string>
+    <string name="description">Description</string>
+    <string name="fill_text_view">Description is Missing! Delete Note to Cancel.</string>
 </resources>

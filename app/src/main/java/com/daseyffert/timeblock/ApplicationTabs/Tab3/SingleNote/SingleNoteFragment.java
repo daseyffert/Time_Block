@@ -10,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.daseyffert.timeblock.ApplicationTabs.Tab3.NotesItem;
 import com.daseyffert.timeblock.ApplicationTabs.Tab3.NotesSingleton;
 import com.daseyffert.timeblock.R;
 
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -29,8 +32,8 @@ public class SingleNoteFragment extends Fragment {
 
     private NotesItem mNotesItem;
     private EditText mTitleField;
-    private EditText mDescriptionField;
-    private CheckBox mPriority;
+    private ImageButton mSaveButton;
+    private ImageButton mDeleteButton;
 
     /**
      * Create a method that creates new Instances of the Fragment
@@ -53,8 +56,6 @@ public class SingleNoteFragment extends Fragment {
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
 
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-
         //Retrieve id from particular note through extracting the
         // fragment's arguments then find it in the singleton
         UUID noteId = (UUID) getArguments().getSerializable(ARG_NOTE_ID);
@@ -69,16 +70,14 @@ public class SingleNoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle onSavedInstanceState) {
         //inflate the View
         View view = inflater.inflate(R.layout.fragment_note_taking, container, false);
+
         //Wire up Widgets
         mTitleField = (EditText) view.findViewById(R.id.fragment_note_taking_title);
-        mDescriptionField = (EditText) view.findViewById(R.id.fragment_note_taking_notes);
-        //TODO uncomment once make the layout
-        //mPriority = view.findViewById(R.id.fragment_note_taking_priority);
+        mSaveButton = (ImageButton) view.findViewById(R.id.fragment_note_taking_save_button);
+        mDeleteButton = (ImageButton) view.findViewById(R.id.fragment_note_taking_delete_button);
 
         //Set the objects to what the item pressed it
         mTitleField.setText(mNotesItem.getTitle());
-        mDescriptionField.setText(mNotesItem.getDescription());
-
 
         //Make sure Title and Description update when the text is changed
         mTitleField.addTextChangedListener(new TextWatcher() {
@@ -97,24 +96,29 @@ public class SingleNoteFragment extends Fragment {
                 //intentionally left blank
             }
         });
-        mDescriptionField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //intentionally left blank
-            }
 
+        //Wire up onClickListener to Save Button which will store the result
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mNotesItem.setDescription(charSequence.toString());
-            }
+            public void onClick(View view) {
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                //intentionally left blank
+                if (mNotesItem.getTitle() == null) {
+                    Toast.makeText(getActivity(), R.string.fill_text_view, Toast.LENGTH_SHORT).show();
+                } else {
+                    mNotesItem.setDate(new Date());
+                    getActivity().finish();
+                }
             }
         });
 
-
+        //Wire up onClickListener to Delete Button which will remove the result
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NotesSingleton.get(getActivity()).deleteNotesItem(mNotesItem);
+                getActivity().finish();
+            }
+        });
 
         return view;
     }
