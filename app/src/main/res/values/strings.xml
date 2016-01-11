@@ -11,5 +11,6 @@
     <string name="delete_button">Delete</string>
     <string name="item_description">Item Description</string>
     <string name="description">Description</string>
-    <string name="fill_text_view">Description is Missing! Delete Note to Cancel.</string>
+    <string name="fill_text_view">Description is Missing!</string>
+    <string name="cancel_button">Cancel</string>
 </resources>

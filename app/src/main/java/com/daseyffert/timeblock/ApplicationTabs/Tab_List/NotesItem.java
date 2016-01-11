@@ -9,7 +9,7 @@ import java.util.UUID;
 public class NotesItem {
 
     private UUID mId;
-    private String mTitle;
+    private String mDescription;
     private Date mDate;
 
     //Generate unique identifier and
@@ -26,11 +26,11 @@ public class NotesItem {
     public void setId(UUID id) {
         mId = id;
     }
-    public String getTitle() {
-        return mTitle;
+    public String getDescription() {
+        return mDescription;
     }
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setDescription(String title) {
+        mDescription = title;
     }
     public Date getDate() {
         return mDate;

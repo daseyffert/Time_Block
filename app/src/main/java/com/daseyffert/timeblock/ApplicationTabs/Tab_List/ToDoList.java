@@ -83,12 +83,12 @@ public class ToDoList extends Fragment {
 
         //Update RecyclerView and TextView depending if the notes are empty
         if (notes.isEmpty()) {
-            //display prompt to add item
+            //display TextView prompt to add item
             mNotesRecyclerView.setVisibility(View.GONE);
             mPromptTextView.setVisibility(View.VISIBLE);
         }
         else {
-            //display notes
+            //display notes on RecyclerView
             mNotesRecyclerView.setVisibility(View.VISIBLE);
             mPromptTextView.setVisibility(View.GONE);
         }
@@ -121,7 +121,7 @@ public class ToDoList extends Fragment {
         public void bindNote(NotesItem note) {
             mNote = note;
             //Assign values to widgets
-            mTitleTextView.setText(mNote.getTitle());
+            mTitleTextView.setText(mNote.getDescription());
             mDateTextView.setText(formattedDate(mNote.getDate()));
             //Wire up Delete button functionality
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +144,8 @@ public class ToDoList extends Fragment {
 
         //Format Date to dd/mm/yyyy from whatever date given
         private String formattedDate(Date date) {
+//            if (date == null)
+//                return null;
             SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
             String formatD = format.format(date);
             return formatD;

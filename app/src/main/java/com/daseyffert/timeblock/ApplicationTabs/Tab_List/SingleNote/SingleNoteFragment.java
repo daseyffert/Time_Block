@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -27,9 +29,11 @@ public class SingleNoteFragment extends Fragment {
     private static final String ARG_NOTE_ID = "note_id";
 
     private NotesItem mNotesItem;
-    private EditText mTitleField;
-    private ImageButton mSaveButton;
-    private ImageButton mDeleteButton;
+    private EditText mDescriptionField;
+    private Button mSaveButton;
+    private Button mCancelButton;
+    private Button mDeleteButton;
+    private String mCurrentDescription;
 
     /**
      * Create a method that creates new Instances of the Fragment
@@ -68,15 +72,16 @@ public class SingleNoteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_taking, container, false);
 
         //Wire up Widgets
-        mTitleField = (EditText) view.findViewById(R.id.fragment_note_taking_title);
-        mSaveButton = (ImageButton) view.findViewById(R.id.fragment_note_taking_save_button);
-        mDeleteButton = (ImageButton) view.findViewById(R.id.fragment_note_taking_delete_button);
+        mDescriptionField = (EditText) view.findViewById(R.id.fragment_note_taking_title);
+        mSaveButton = (Button) view.findViewById(R.id.fragment_note_taking_save_button);
+        mCancelButton = (Button) view.findViewById(R.id.fragment_note_taking_cancel_button);
+        mDeleteButton = (Button) view.findViewById(R.id.fragment_note_taking_delete_button);
 
         //Set the objects to what the item pressed it
-        mTitleField.setText(mNotesItem.getTitle());
+        mDescriptionField.setText(mNotesItem.getDescription());
 
         //Make sure Title and Description update when the text is changed
-        mTitleField.addTextChangedListener(new TextWatcher() {
+        mDescriptionField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //intentionally left blank
@@ -84,7 +89,8 @@ public class SingleNoteFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                mNotesItem.setTitle(charSequence.toString());
+                //mNotesItem.setTitle(charSequence.toString());
+                mCurrentDescription = charSequence.toString();
             }
 
             @Override
@@ -98,12 +104,25 @@ public class SingleNoteFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (mNotesItem.getTitle() == null) {
+                //check to make sure description isn't empty
+                if (mCurrentDescription == null) {
                     Toast.makeText(getActivity(), R.string.fill_text_view, Toast.LENGTH_SHORT).show();
                 } else {
+                    mNotesItem.setDescription(mCurrentDescription);
                     mNotesItem.setDate(new Date());
                     getActivity().finish();
                 }
+            }
+        });
+
+        //Wire up onClickListener to Cancel Button which will remove the result
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //destroy list if it is empty
+                if (mCurrentDescription == null)
+                    NotesSingleton.get(getActivity()).deleteNotesItem(mNotesItem);
+                getActivity().finish();
             }
         });
 
