@@ -1,6 +1,8 @@
 package com.daseyffert.timeblock.ApplicationTabs.Tab_List;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.Database.NoteDbSchema;
 import com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote.SingleNoteActivity;
 import com.daseyffert.timeblock.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Daniel on 12/21/2015.
@@ -31,6 +36,9 @@ public class ToDoList extends Fragment {
     private RecyclerView mNotesRecyclerView;
     private NoteAdapter mNoteAdapter;
 
+    SQLiteDatabase db;
+    NoteDbSchema dbSchema;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -41,6 +49,11 @@ public class ToDoList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        //initialize db and dbSchema
+        dbSchema = new NoteDbSchema(getActivity());
+        db = dbSchema.getReadableDatabase();
+
         //Inflate the View
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         //Wire up views
@@ -53,6 +66,10 @@ public class ToDoList extends Fragment {
         mToDoTitleTextView.setText("To-Do List");
         //setLayoutManager to Linear for RecyclerView
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        /**
+         * Add stored tasks to NotesSingleton
+         */
+        readDB();
         //Configure UserInterface
         UpdateUI();
         //Add listener to add button
@@ -68,6 +85,47 @@ public class ToDoList extends Fragment {
         return view;
     }
 
+    /**
+     * Reads database and inserts all data into List<NotesItem> in NotesSingleton class
+     */
+    private void readDB() {
+        //cursor contains all data in the database
+        Cursor cursor = dbSchema.storedTasks(db);
+        NotesSingleton notesSingleton = NotesSingleton.get(getActivity());
+
+        NotesItem notesItem;
+
+        //Checks if cursor has any data
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+
+            do{
+                //Creates new NotesItem object with task stored in databases
+                notesItem = new NotesItem();
+                notesItem.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex("ID"))));
+                notesItem.setDescription(cursor.getString(cursor.getColumnIndex("DESCRIPTION")));
+
+                //Converts date that is stored in the database as text into Date object
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                try {
+
+                    notesItem.setDate(formatter.parse(cursor.getString(cursor.getColumnIndex("DATE"))));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //Adds new NotesItem into List in NotesSingleton class
+                notesSingleton.addNotesItem(notesItem);
+                //continues until cursor is empty
+            }while(cursor.moveToNext());
+            //close cursor
+            cursor.close();
+        }
+        //close database
+        db.close();
+    }
+
     private void UpdateUI() {
         NotesSingleton notesSingleton = NotesSingleton.get(getActivity());
         List<NotesItem> notes = notesSingleton.getNotesItems();
@@ -75,8 +133,8 @@ public class ToDoList extends Fragment {
         //TODO figure out how to implement notifyDataSetChanged() without
         //TODO losing list
 //        if (mNoteAdapter == null) {
-            mNoteAdapter = new NoteAdapter(notes);
-            mNotesRecyclerView.setAdapter(mNoteAdapter);
+        mNoteAdapter = new NoteAdapter(notes);
+        mNotesRecyclerView.setAdapter(mNoteAdapter);
 //        } else {
 //            mNoteAdapter.notifyDataSetChanged();
 //        }
@@ -104,9 +162,19 @@ public class ToDoList extends Fragment {
         private TextView mDateTextView;
         private ImageButton mDeleteButton;
 
+        SQLiteDatabase db;
+        NoteDbSchema dbSchema;
+
         //Constructor sets up class by wiring widgets
         public NoteHolder(View itemView) {
             super(itemView);
+
+            /**
+             * initialize database
+             */
+            dbSchema = new NoteDbSchema(getActivity().getApplicationContext());
+            db = dbSchema.getReadableDatabase();
+
             //Set onClick for the RecyclerView item
             itemView.setOnClickListener(this);
             //Wire up Widget Views for each RecyclerView Item
@@ -127,11 +195,23 @@ public class ToDoList extends Fragment {
             mDeleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /**
+                     * delete row from database
+                     */
+                    dbSchema.deleteTask(mNote);
 
                     NotesSingleton.get(getActivity()).deleteNotesItem(mNote);
                     UpdateUI();
                 }
             });
+        }
+
+        private String formattedDate(Date date) {
+//            if (date == null)
+//                return null;
+            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+            String formatD = format.format(date);
+            return formatD;
         }
 
         //Implementation of when the certain RecyclerView View is clicked
@@ -140,15 +220,6 @@ public class ToDoList extends Fragment {
             //pass mNote's Id to activity
             Intent intent = SingleNoteActivity.newIntent(getActivity(), mNote.getId());
             startActivity(intent);
-        }
-
-        //Format Date to dd/mm/yyyy from whatever date given
-        private String formattedDate(Date date) {
-//            if (date == null)
-//                return null;
-            SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-            String formatD = format.format(date);
-            return formatD;
         }
     }
 

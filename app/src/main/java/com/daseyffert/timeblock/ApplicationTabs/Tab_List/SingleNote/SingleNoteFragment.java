@@ -1,5 +1,6 @@
 package com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.daseyffert.timeblock.ApplicationTabs.Tab_List.Database.NoteDbSchema;
 import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesItem;
 import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesSingleton;
 import com.daseyffert.timeblock.R;
@@ -35,6 +37,12 @@ public class SingleNoteFragment extends Fragment {
     private Button mDeleteButton;
     private String mCurrentDescription;
 
+    //Database
+    SQLiteDatabase db;
+    NoteDbSchema dbSchema;
+
+
+
     /**
      * Create a method that creates new Instances of the Fragment
      * by first putting information into arguments then setting them
@@ -55,6 +63,10 @@ public class SingleNoteFragment extends Fragment {
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
+
+        //initializes database
+        dbSchema = new NoteDbSchema(getActivity());
+        db = dbSchema.getReadableDatabase();
 
         //Retrieve id from particular note through extracting the
         // fragment's arguments then find it in the singleton
@@ -110,6 +122,10 @@ public class SingleNoteFragment extends Fragment {
                 } else {
                     mNotesItem.setDescription(mCurrentDescription);
                     mNotesItem.setDate(new Date());
+                    /**
+                     * Add data to the database
+                     */
+                    dbSchema.insertTask(mNotesItem);
                     getActivity().finish();
                 }
             }
