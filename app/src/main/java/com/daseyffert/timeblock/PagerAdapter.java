@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.daseyffert.timeblock.ApplicationTabs.TabFragment1;
+import com.daseyffert.timeblock.ApplicationTabs.AppsListFragment;
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
 import com.daseyffert.timeblock.ApplicationTabs.Tab_List.ToDoList;
 
@@ -14,7 +14,7 @@ import com.daseyffert.timeblock.ApplicationTabs.Tab_List.ToDoList;
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private int mNumOfTabs;
-    private TabFragment1 mTab1;
+    private AppsListFragment mTab1;
     private TabFragment2 mTab2;
     private ToDoList mTab3;
 
@@ -33,7 +33,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                return mTab1 = new TabFragment1();
+                return mTab1 = new AppsListFragment();
             case 1:
                 return mTab2 = new TabFragment2();
             case 2:

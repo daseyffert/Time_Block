@@ -24,13 +24,13 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         //1.1 Get Fragment Manager first so that can get fragment class
         FragmentManager fm = getSupportFragmentManager();
         //1.2 Ask fragment manager if fragment_container is in list
-        Fragment fragment = fm.findFragmentById(R.id.activity_fragment_container_note);
+        Fragment fragment = fm.findFragmentById(R.id.activity_fragment_container);
         //1.3 Checks if fragment manager found and returned fragment_container
         if(fragment == null){
             fragment = createFragment();
             //.beginTransaction() = creates and returns instance of FRAGMENT TRANSACTION
             //.add().commit() = create and commit FRAGMENT TRANSACTION
-            fm.beginTransaction().add(R.id.activity_fragment_container_note, fragment).commit();
+            fm.beginTransaction().add(R.id.activity_fragment_container, fragment).commit();
         }
     }
 

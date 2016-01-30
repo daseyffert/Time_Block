@@ -39,6 +39,10 @@ public class ToDoList extends Fragment {
     SQLiteDatabase db;
     NoteDbSchema dbSchema;
 
+    public static ToDoList newInstance() {
+        return new ToDoList();
+    }
+
     @Override
     public void onResume() {
         super.onResume();

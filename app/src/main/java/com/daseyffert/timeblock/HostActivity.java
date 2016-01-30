@@ -1,5 +1,4 @@
 package com.daseyffert.timeblock;
-//Testing can still commit
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.daseyffert.timeblock.ApplicationTabs.TabFragment1;
+import com.daseyffert.timeblock.ApplicationTabs.AppsListFragment;
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
 import com.daseyffert.timeblock.ApplicationTabs.Tab_List.ToDoList;
 
@@ -51,8 +50,8 @@ public class HostActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         //Aggregate the Fragments and title to List
-        adapter.addFragment(new ToDoList(), "LIST");
-        adapter.addFragment(new TabFragment1(), "APPLICATIONS");
+        adapter.addFragment(ToDoList.newInstance(), "LIST");
+        adapter.addFragment(AppsListFragment.newInstance(), "APPLICATIONS");
         adapter.addFragment(new TabFragment2(), "TIMEBLOCK");
         viewPager.setAdapter(adapter);
     }
