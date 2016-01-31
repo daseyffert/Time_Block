@@ -44,6 +44,20 @@ public class ToDoList extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
+        //initialize db and dbSchema
+        dbSchema = new NoteDbSchema(getActivity());
+        db = dbSchema.getReadableDatabase();
+
+        /**
+         * Add stored tasks to NotesSingleton
+         */
+        readDB();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         UpdateUI();
@@ -54,9 +68,7 @@ public class ToDoList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        //initialize db and dbSchema
-        dbSchema = new NoteDbSchema(getActivity());
-        db = dbSchema.getReadableDatabase();
+
 
         //Inflate the View
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
@@ -70,10 +82,7 @@ public class ToDoList extends Fragment {
         mToDoTitleTextView.setText("To-Do List");
         //setLayoutManager to Linear for RecyclerView
         mNotesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /**
-         * Add stored tasks to NotesSingleton
-         */
-        readDB();
+
         //Configure UserInterface
         UpdateUI();
         //Add listener to add button
