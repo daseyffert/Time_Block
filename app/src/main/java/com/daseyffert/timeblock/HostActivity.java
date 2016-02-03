@@ -31,7 +31,7 @@ public class HostActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //Show Application Icon next to title
+        //Show sApplication Icon next to title
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 

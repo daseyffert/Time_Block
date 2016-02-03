@@ -12,13 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daseyffert.timeblock.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -47,33 +48,48 @@ public class AppsListFragment extends Fragment {
         return view;
     }
 
-    //Setup the adapter vy getting all the information needed
-    private void setUpAdapter(){
+
+    //Setup the adapter by getting all the information needed
+    private void setUpAdapter() {
+        //List stores All applications installed on phone
+        List<Applications> mApplications = new ArrayList<>();
+
         Intent startUpIntent = new Intent(Intent.ACTION_MAIN);
         startUpIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         PackageManager pm = getActivity().getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(startUpIntent, 0);
 
-        Collections.sort(activities, new Comparator<ResolveInfo>() {
-            @Override
-            public int compare(ResolveInfo a, ResolveInfo b) {
-                PackageManager packageManager = getActivity().getPackageManager();
-                return String.CASE_INSENSITIVE_ORDER.compare(a.loadLabel(packageManager).toString(), b.loadLabel(packageManager).toString());
-            }
-        });
+        Collections.sort(activities, new ResolveInfo.DisplayNameComparator(pm));
+        //Iterate through List type ResolveInfo and store key values into Objects
+        for (ResolveInfo ri : activities) {
+            //Applications info = new Applications(ri.activityInfo.name);
+            Applications app = new Applications();
+            //Update information to particular instance of Application
+            app.setPackageName(ri.activityInfo.packageName);
+            app.setName(ri.activityInfo.name);
+            app.setApplicationLabel(ri.loadLabel(pm).toString());
+            app.setApplicationIcon(ri.activityInfo.loadIcon(pm));
+            //Log.d(TAG, "Adding name " + app.getApplicationLabel());
 
-        Log.i(TAG, "Found " + activities.size() + " activities.");
-        mRecyclerView.setAdapter(new ApplicationAdapter(activities));
+            //Add application to List
+            mApplications.add(app);
+        }
+
+        //Log.i(TAG, "Found " + activities.size() + " activities.");
+        //Set up Adapter of RecyclerView
+        mRecyclerView.setAdapter(new ApplicationAdapter(mApplications));
     }
 
+    //ViewHolder Class
     private class ApplicationHolder extends RecyclerView.ViewHolder {
 
-        private ResolveInfo mResolveInfo;
+        private Applications mApplication;
         private ImageView mAppImageView;
         private CheckBox mCheckBox;
         private TextView mAppTextView;
 
+        //Wire up Views needed for each Application representation
         public ApplicationHolder(View itemView) {
             super(itemView);
             mAppImageView = (ImageView) itemView.findViewById(R.id.application_list_selection_image);
@@ -81,24 +97,35 @@ public class AppsListFragment extends Fragment {
             mAppTextView = (TextView) itemView.findViewById(R.id.applications_list_selection_text);
         }
 
-        public void bindActivity(ResolveInfo resolveInfo) {
-            mResolveInfo = resolveInfo;
-            PackageManager pm = getActivity().getPackageManager();
-            String appName = mResolveInfo.loadLabel(pm).toString();
-            mAppTextView.setText(appName);
-            mAppImageView.setImageDrawable(mResolveInfo.loadIcon(pm));
+        public void bindActivity(Applications application) {
+            mApplication = application;
+
+            //Set up Views with their necessary components
+            mAppTextView.setText(mApplication.getApplicationLabel());
+            mAppImageView.setImageDrawable(mApplication.getApplicationIcon());
+            mCheckBox.setChecked(mApplication.isCheck());
+
+            //Set up checkChangeListener to catch actions into object boolean
+            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    mApplication.setIsCheck(isChecked);
+                }
+            });
         }
     }
 
+    //Adapter of RecyclerView Class
     private class ApplicationAdapter extends RecyclerView.Adapter<ApplicationHolder> {
-        private final List<ResolveInfo> mApplications;
+        private final List<Applications> mApplications;
 
-        private ApplicationAdapter(List<ResolveInfo> applications) {
+        private ApplicationAdapter(List<Applications> applications) {
             mApplications = applications;
         }
 
         @Override
         public ApplicationHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            //inflate the layout with how each RecyclerView looks
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.application_list_selection, parent, false);
             return new ApplicationHolder(view);
@@ -106,8 +133,9 @@ public class AppsListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ApplicationHolder holder, int position) {
-            ResolveInfo resolveInfo = mApplications.get(position);
-            holder.bindActivity(resolveInfo);
+            //Extract position then bind components to View Holder
+            Applications application = mApplications.get(position);
+            holder.bindActivity(application);
         }
 
         @Override
