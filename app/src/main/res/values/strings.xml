@@ -14,4 +14,9 @@
     <string name="fill_text_view">Description is Missing!</string>
     <string name="cancel_button">Cancel</string>
     <string name="caution_message">Selected Apps Will NOT Be Blocked</string>
+    <string name="blocking_time">Block Period:</string>
+    <string name="setup">Time Block Setup</string>
+    <string name="rest_period">Rest Period:</string>
+    <string name="loop_question">Loop Timer?</string>
+    <string name="security_question">Friend Security?</string>
 </resources>
