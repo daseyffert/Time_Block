@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List;
+package com.daseyffert.timeblock.ApplicationTabs.List;
 
 import android.content.Context;
 

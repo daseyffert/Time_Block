@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List.Database;
+package com.daseyffert.timeblock.ApplicationTabs.List.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,11 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesItem;
+import com.daseyffert.timeblock.ApplicationTabs.List.NotesItem;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Daniel on 1/11/2016.

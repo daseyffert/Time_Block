@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List;
+package com.daseyffert.timeblock.ApplicationTabs.List;
 
 import java.util.Date;
 import java.util.UUID;

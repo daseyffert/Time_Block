@@ -3,7 +3,10 @@ package com.daseyffert.timeblock.ApplicationTabs.Apps;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,23 +19,46 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daseyffert.timeblock.ApplicationTabs.Database.DBAdapter;
 import com.daseyffert.timeblock.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Daniel on 12/21/2015.
  */
 public class AppsListFragment extends Fragment {
     private static final String TAG = "AppsListFragment";
+    private static final String SAVEDLIST = "onSavedInstanceStateList";
 
     private RecyclerView mRecyclerView;
+    //TODO figure out how put checked apps into list
+    //TODO then use that list to access database
+//    private DBAdapter mDatabaseSchema;
+//    private SQLiteDatabase mSQLiteDatabase;
+    //List stores All applications installed on phone
+    public List<Applications> mApplications = new ArrayList<>();
 
     //Call this method when need of creating it
     public static AppsListFragment newInstance() {
         return new AppsListFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //initialize db and dbSchema
+//        mDatabaseSchema = new DBAdapter(getActivity());
+//        mSQLiteDatabase = mDatabaseSchema.mDatabaseHelper.getReadableDatabase();
+
+        /**
+         * Add stored tasks to List
+         */
+//        readDB();
     }
 
     @Override
@@ -51,9 +77,6 @@ public class AppsListFragment extends Fragment {
 
     //Setup the adapter by getting all the information needed
     private void setUpAdapter() {
-        //List stores All applications installed on phone
-        List<Applications> mApplications = new ArrayList<>();
-
         Intent startUpIntent = new Intent(Intent.ACTION_MAIN);
         startUpIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -67,7 +90,7 @@ public class AppsListFragment extends Fragment {
             Applications app = new Applications();
             //Update information to particular instance of Application
             app.setPackageName(ri.activityInfo.packageName);
-            app.setName(ri.activityInfo.name);
+            //app.setName(ri.activityInfo.name);
             app.setApplicationLabel(ri.loadLabel(pm).toString());
             app.setApplicationIcon(ri.activityInfo.loadIcon(pm));
             //Log.d(TAG, "Adding name " + app.getApplicationLabel());
@@ -143,4 +166,45 @@ public class AppsListFragment extends Fragment {
             return mApplications.size();
         }
     }
+
+    //TODO everything below is part of TODO on top
+//    private void readDB() {
+//        //cursor contains all data in the database
+//        Cursor cursor = mDatabaseSchema.storedTasks(mSQLiteDatabase);
+////        NotesSingleton notesSingleton = NotesSingleton.get(getActivity());
+//        mApplications = new ArrayList<>();
+//
+//
+//        Applications application;
+//
+//        //Checks if cursor has any data
+//        if (cursor.moveToFirst()) {
+//            cursor.moveToFirst();
+//
+//            do{
+//                //Creates new NotesItem object with task stored in databases
+//                application = new Applications();
+//                application.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex("_id"))));
+//                application.setApplicationLabel(cursor.getString(cursor.getColumnIndex("app_name")));
+//
+//                //Converts date that is stored in the database as text into Date object
+////                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+////                try {
+////
+////                    notesItem.setDate(formatter.parse(cursor.getString(cursor.getColumnIndex("date"))));
+////
+////                } catch (ParseException e) {
+////                    e.printStackTrace();
+////                }
+//
+//                //Adds new NotesItem into List in NotesSingleton class
+//                mApplications.add(application);
+//                //continues until cursor is empty
+//            }while(cursor.moveToNext());
+//            //close cursor
+//            cursor.close();
+//        }
+//        //close database
+//        mSQLiteDatabase.close();
+//    }
 }

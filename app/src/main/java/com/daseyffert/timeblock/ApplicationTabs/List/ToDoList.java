@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List;
+package com.daseyffert.timeblock.ApplicationTabs.List;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.Database.NoteDbSchema;
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote.SingleNoteActivity;
+import com.daseyffert.timeblock.ApplicationTabs.Database.DBAdapter;
+import com.daseyffert.timeblock.ApplicationTabs.List.Database.NoteDbSchema;
+import com.daseyffert.timeblock.ApplicationTabs.List.SingleNote.SingleNoteActivity;
 import com.daseyffert.timeblock.R;
 
 import java.text.ParseException;
@@ -37,7 +38,7 @@ public class ToDoList extends Fragment {
     private NoteAdapter mNoteAdapter;
 
     SQLiteDatabase db;
-    NoteDbSchema dbSchema;
+    DBAdapter dbSchema;
 
     public static ToDoList newInstance() {
         return new ToDoList();
@@ -48,8 +49,12 @@ public class ToDoList extends Fragment {
         super.onCreate(onSavedInstanceState);
 
         //initialize db and dbSchema
-        dbSchema = new NoteDbSchema(getActivity());
-        db = dbSchema.getReadableDatabase();
+        //dbSchema = new NoteDbSchema(getActivity());
+        //db = dbSchema.getReadableDatabase();
+
+        dbSchema = new DBAdapter(getActivity());
+        db = dbSchema.mDatabaseHelper.getReadableDatabase();
+
 
         /**
          * Add stored tasks to NotesSingleton
@@ -114,14 +119,14 @@ public class ToDoList extends Fragment {
             do{
                 //Creates new NotesItem object with task stored in databases
                 notesItem = new NotesItem();
-                notesItem.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex("ID"))));
-                notesItem.setDescription(cursor.getString(cursor.getColumnIndex("DESCRIPTION")));
+                notesItem.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex("_id"))));
+                notesItem.setDescription(cursor.getString(cursor.getColumnIndex("description")));
 
                 //Converts date that is stored in the database as text into Date object
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                 try {
 
-                    notesItem.setDate(formatter.parse(cursor.getString(cursor.getColumnIndex("DATE"))));
+                    notesItem.setDate(formatter.parse(cursor.getString(cursor.getColumnIndex("date"))));
 
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -175,7 +180,8 @@ public class ToDoList extends Fragment {
         private ImageButton mDeleteButton;
 
         SQLiteDatabase db;
-        NoteDbSchema dbSchema;
+//        NoteDbSchema dbSchema;
+        DBAdapter dbSchema;
 
         //Constructor sets up class by wiring widgets
         public NoteHolder(View itemView) {
@@ -184,8 +190,9 @@ public class ToDoList extends Fragment {
             /**
              * initialize database
              */
-            dbSchema = new NoteDbSchema(getActivity().getApplicationContext());
-            db = dbSchema.getReadableDatabase();
+//            dbSchema = new NoteDbSchema(getActivity().getApplicationContext());
+            dbSchema = new DBAdapter(getActivity().getApplicationContext());
+            db = dbSchema.mDatabaseHelper.getReadableDatabase();
 
             //Set onClick for the RecyclerView item
             itemView.setOnClickListener(this);

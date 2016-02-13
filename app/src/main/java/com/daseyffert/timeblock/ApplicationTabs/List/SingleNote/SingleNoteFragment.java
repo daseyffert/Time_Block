@@ -1,22 +1,21 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote;
+package com.daseyffert.timeblock.ApplicationTabs.List.SingleNote;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.Database.NoteDbSchema;
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesItem;
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.NotesSingleton;
+import com.daseyffert.timeblock.ApplicationTabs.Database.DBAdapter;
+import com.daseyffert.timeblock.ApplicationTabs.List.Database.NoteDbSchema;
+import com.daseyffert.timeblock.ApplicationTabs.List.NotesItem;
+import com.daseyffert.timeblock.ApplicationTabs.List.NotesSingleton;
 import com.daseyffert.timeblock.R;
 
 import java.util.Date;
@@ -39,7 +38,8 @@ public class SingleNoteFragment extends Fragment {
 
     //Database
     SQLiteDatabase db;
-    NoteDbSchema dbSchema;
+    //NoteDbSchema dbSchema;
+    DBAdapter dbSchema;
 
 
 
@@ -65,8 +65,8 @@ public class SingleNoteFragment extends Fragment {
         super.onCreate(onSavedInstanceState);
 
         //initializes database
-        dbSchema = new NoteDbSchema(getActivity());
-        db = dbSchema.getReadableDatabase();
+        dbSchema = new DBAdapter(getActivity());
+        db = dbSchema.mDatabaseHelper.getReadableDatabase();
 
         //Retrieve id from particular note through extracting the
         // fragment's arguments then find it in the singleton

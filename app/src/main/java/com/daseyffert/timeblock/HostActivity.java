@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.daseyffert.timeblock.ApplicationTabs.Apps.AppsListFragment;
 import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
-import com.daseyffert.timeblock.ApplicationTabs.Tab_List.ToDoList;
+import com.daseyffert.timeblock.ApplicationTabs.List.ToDoList;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.daseyffert.timeblock.ApplicationTabs.Tab_List.SingleNote;
+package com.daseyffert.timeblock.ApplicationTabs.List.SingleNote;
 
 import android.content.Context;
 import android.content.Intent;
