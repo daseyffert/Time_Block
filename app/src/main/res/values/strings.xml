@@ -17,6 +17,9 @@
     <string name="blocking_time">Work Period:</string>
     <string name="setup">Time Block Setup</string>
     <string name="rest_period">Rest Period:</string>
-    <string name="loop_question">Loop Timer?</string>
+    <string name="loop_question">Set Loop Timer?</string>
     <string name="security_question">Friend Security?</string>
+    <string name="help">help?</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>

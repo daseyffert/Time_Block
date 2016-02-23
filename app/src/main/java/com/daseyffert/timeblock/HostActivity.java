@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.daseyffert.timeblock.ApplicationTabs.Apps.AppsListFragment;
-import com.daseyffert.timeblock.ApplicationTabs.TabFragment2;
+import com.daseyffert.timeblock.ApplicationTabs.TimeBlock.Setup;
 import com.daseyffert.timeblock.ApplicationTabs.List.ToDoList;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class HostActivity extends AppCompatActivity {
         //Aggregate the Fragments and title to List
         adapter.addFragment(ToDoList.newInstance(), "LIST");
         adapter.addFragment(AppsListFragment.newInstance(), "APPLICATIONS");
-        adapter.addFragment(new TabFragment2(), "TIMEBLOCK");
+        adapter.addFragment(Setup.newInstance(), "TIMEBLOCK");
         viewPager.setAdapter(adapter);
     }
 
