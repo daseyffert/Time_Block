@@ -1,12 +1,14 @@
 package com.daseyffert.timeblock.ApplicationTabs.TimeBlock;
 
+import java.util.Date;
+
 /**
  * Created by Daniel on 2/22/2016.
  */
 public class Setting {
 
-    private String mWorkPeriod;
-    private String mRestPeriod;
+    private Date mWorkPeriod;
+    private Date mRestPeriod;
     private boolean mSetLoop;
     private boolean mFriendSecurity;
 
@@ -15,19 +17,19 @@ public class Setting {
     mFriendSecurity = false;
     }
 
-    public String getWorkPeriod() {
+    public Date getWorkPeriod() {
         return mWorkPeriod;
     }
 
-    public void setWorkPeriod(String workPeriod) {
+    public void setWorkPeriod(Date workPeriod) {
         mWorkPeriod = workPeriod;
     }
 
-    public String getRestPeriod() {
+    public Date getRestPeriod() {
         return mRestPeriod;
     }
 
-    public void setRestPeriod(String restPeriod) {
+    public void setRestPeriod(Date restPeriod) {
         mRestPeriod = restPeriod;
     }
 

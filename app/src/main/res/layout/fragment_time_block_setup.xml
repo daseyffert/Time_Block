@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +8,7 @@
     android:padding="4dp">
 
     <TextView
+        android:id="@+id/fragment_time_block_setup_title"
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +18,8 @@
         android:textSize="24sp"/>
 
     <LinearLayout
+        android:id="@+id/time_setup_layout"
+        android:layout_below="@id/fragment_time_block_setup_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -72,55 +75,70 @@
 
     </LinearLayout>
 
-    <Switch
-        android:id="@+id/fragment_time_block_setup_loop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="@string/loop_question"
-        android:textOff="NO"
-        android:textOn="YES"
-        android:padding="4dp"/>
-
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/switch_setup_layout"
+        android:layout_below="@id/time_setup_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp">
+        android:orientation="vertical">
 
         <Switch
-            android:id="@+id/fragment_time_block_setup_friend_security"
+            android:id="@+id/fragment_time_block_setup_loop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="@string/security_question"
+            android:text="@string/loop_question"
             android:textOff="NO"
             android:textOn="YES"
-            android:padding="2dp"/>
+            android:padding="4dp"/>
 
-        <Button
-            android:id="@+id/fragment_time_block_setup_security_help"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/help"
-            android:padding="2dp"/>
+            android:padding="2dp">
+
+            <Switch
+                android:id="@+id/fragment_time_block_setup_friend_security"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="@string/security_question"
+                android:textOff="NO"
+                android:textOn="YES"
+                android:padding="2dp"/>
+
+            <Button
+                android:id="@+id/fragment_time_block_setup_security_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/help"
+                android:padding="2dp"/>
 
 
+
+        </LinearLayout>
 
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/fragment_time_block_setup_start"
+
+    <LinearLayout
+        android:layout_below="@id/switch_setup_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/fragment_time_block_setup_stop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/stop"/>
+        <Button
+            android:id="@+id/fragment_time_block_setup_start"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start"/>
 
-
-</LinearLayout>
+        <Button
+            android:id="@+id/fragment_time_block_setup_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"/>
+    </LinearLayout>
+</RelativeLayout>
